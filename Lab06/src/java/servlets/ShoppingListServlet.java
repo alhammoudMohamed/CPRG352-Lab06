@@ -16,26 +16,15 @@ public class ShoppingListServlet extends HttpServlet {
 
         HttpSession session = request.getSession();
         session.setAttribute("items", items);
-
         String logout = request.getParameter("logout");
+
         if (logout != null) {
 
-            session.invalidate();
-            items = new ArrayList<String>();
-            getServletContext().getRequestDispatcher("/WEB-INF/register.jsp").forward(request, response);
+            logUserOut(session, request, response);
 
         } else {
 
-            if (session.getAttribute("username") != null) {
-                String user = (String) session.getAttribute("username");
-
-                request.setAttribute("username", user);
-
-                //response.sendRedirect("shoppingList");
-                getServletContext().getRequestDispatcher("/WEB-INF/shoppingList.jsp").forward(request, response);
-            } else {
-                getServletContext().getRequestDispatcher("/WEB-INF/register.jsp").forward(request, response);
-            }
+            registerUser(session, request, response);
         }
     }
 
@@ -50,40 +39,68 @@ public class ShoppingListServlet extends HttpServlet {
         HttpSession session = request.getSession();
 
         if (register != null) {
-            String username = request.getParameter("username");
-            boolean usernameNotEmpty = isValidInput(username);
-
-            if (usernameNotEmpty) {
-
-                session.setAttribute("username", username);
-                response.sendRedirect("shoppingList");
-            }
+            logUserIn(request, session, response);
 
         } else if (addButton != null) {
 
-            String itemField = request.getParameter("itemToAdd");
-            boolean itemFieldNotEmpty = isValidInput(itemField);
-
-            if (itemFieldNotEmpty) {
-
-                // List<String> items = new ArrayList();
-                //session.setAttribute("items", items);
-                items.add(itemField);
-
-                response.sendRedirect("shoppingList");
-            } else {
-                response.sendRedirect("shoppingList");
-            }
+            addElementToList(request, response);
 
         } else if (deleteButton != null) {
 
-            //////
-            String deletedValue = request.getParameter("item");
-            items.remove(deletedValue);
-
-            response.sendRedirect("shoppingList");
-
+            deleteSelectedElement(request, response);
         }
+    }
+
+    //////////////////
+    ///// Methods/////
+    private void registerUser(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (session.getAttribute("username") != null) {
+            String user = (String) session.getAttribute("username");
+
+            request.setAttribute("username", user);
+
+            //response.sendRedirect("shoppingList");
+            getServletContext().getRequestDispatcher("/WEB-INF/shoppingList.jsp").forward(request, response);
+        } else {
+            getServletContext().getRequestDispatcher("/WEB-INF/register.jsp").forward(request, response);
+        }
+    }
+
+    private void logUserOut(HttpSession session, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+        session.invalidate();
+        items = new ArrayList<String>();
+        getServletContext().getRequestDispatcher("/WEB-INF/register.jsp").forward(request, response);
+    }
+
+    private void logUserIn(HttpServletRequest request, HttpSession session, HttpServletResponse response) throws IOException {
+        String username = request.getParameter("username");
+        boolean usernameNotEmpty = isValidInput(username);
+
+        if (usernameNotEmpty) {
+
+            session.setAttribute("username", username);
+            response.sendRedirect("shoppingList");
+        }
+    }
+
+    private void addElementToList(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        String itemField = request.getParameter("itemToAdd");
+        boolean itemFieldNotEmpty = isValidInput(itemField);
+
+        if (itemFieldNotEmpty) {
+            items.add(itemField);
+            response.sendRedirect("shoppingList");
+        } else {
+            response.sendRedirect("shoppingList");
+        }
+    }
+
+    private void deleteSelectedElement(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String deletedValue = request.getParameter("item");
+        items.remove(deletedValue);
+
+        response.sendRedirect("shoppingList");
     }
 
     private boolean isValidInput(String input) {
