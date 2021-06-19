@@ -10,15 +10,10 @@
         <h1>Shopping List</h1>
 
         <form method="post"  >
-
             <label  >Username:  </label>
-            <input type="text" name="username" required>
-            
+            <input type="text" name="username" required>           
             <input type="submit" name="register"  value="Register Name">
-            <input type="hidden" name="action" value="register">
-             
-
+            <input type="hidden" name="action" value="register">           
         </form>
-
     </body>
 </html>

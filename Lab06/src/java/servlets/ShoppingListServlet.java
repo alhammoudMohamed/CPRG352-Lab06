@@ -25,6 +25,7 @@ public class ShoppingListServlet extends HttpServlet {
         } else {
 
             registerUser(session, request, response);
+
         }
     }
 
@@ -99,7 +100,6 @@ public class ShoppingListServlet extends HttpServlet {
     private void deleteSelectedElement(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String deletedValue = request.getParameter("item");
         items.remove(deletedValue);
-
         response.sendRedirect("shoppingList");
     }
 

@@ -17,28 +17,21 @@
 
         <form method="post" >
 
-
             <h2> ${username} is logged in</h2>
-
 
             <h2>Add Item </h2>
             <input type="text" name="itemToAdd" >
             <input type="submit" value="Add Item" name="addItem">
 
-
             <c:if test="${items.size()!=0}">
-
 
                 <c:forEach items="${items}" var="item">
                     <ul>
                         <li> <input type="radio" name="item"  value="${item}"  >${item} </li>
-
-
                     </ul>
-
                 </c:forEach>
-            </c:if>
 
+            </c:if>
             <br>
             <br>
             <p>${clicked}</p>
@@ -46,7 +39,6 @@
             <br>
             <br>
             <a href="shoppingList?logout">Logout</a>
-
         </form>
 
     </body>
