@@ -36,6 +36,7 @@ public class ShoppingListServlet extends HttpServlet {
         String register = request.getParameter("register");
         String addButton = request.getParameter("addItem");
         String deleteButton = request.getParameter("deleteButton");
+        //String action = request.getParameter("action");
 
         HttpSession session = request.getSession();
 
@@ -47,9 +48,9 @@ public class ShoppingListServlet extends HttpServlet {
             addElementToList(request, response);
 
         } else if (deleteButton != null) {
-
             deleteSelectedElement(request, response);
         }
+
     }
 
     //////////////////

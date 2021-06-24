@@ -21,7 +21,9 @@
 
             <h2>Add Item </h2>
             <input type="text" name="itemToAdd" >
-            <input type="submit" value="Add Item" name="addItem">
+            <input type="submit" name="addItem" value="Add Item" >
+            <input type="hidden" name="action" value="addItem"> 
+            
 
             <c:if test="${items.size()!=0}">
 
@@ -35,10 +37,15 @@
             <br>
             <br>
             <p>${clicked}</p>
-            <input type="submit" name="deleteButton" value="Delete">
+            <input type="submit" name="deleteButton" value="Delete" >
+            <input type="hidden" name="action" value="delete"> 
             <br>
             <br>
             <a href="shoppingList?logout">Logout</a>
+            
+           
+             <input type="hidden" name="action" value="logout"> 
+            
         </form>
 
     </body>
